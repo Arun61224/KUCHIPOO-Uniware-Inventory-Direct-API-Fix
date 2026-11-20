@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827"><title>KUCHIPOO | Inventory Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">K</div><div><b>KUCHIPOO</b><small>INVENTORY INTELLIGENCE</small></div></div>
+  <div class="workspace"><span class="pulse"></span> Uniware workspace <span class="chev">⌄</span></div>
+  <div class="nav-label">WORKSPACE</div>
+  <a class="nav active" href="#"><span>▦</span> Overview</a>
+  <a class="nav" href="#inventory"><span>▤</span> Inventory</a>
+  <a class="nav" href="#sales"><span>↗</span> Sales analytics</a>
+  <a class="nav" href="#products"><span>◇</span> Product master</a>
+  <a class="nav" href="#channels"><span>◫</span> Channels</a>
+  <div class="side-bottom"><div class="sync-card"><div class="sync-title"><span class="pulse"></span> Data connection</div><b id="connection">Checking setup…</b><small id="connection-detail">Secure server-side connection</small></div><div class="user"><div class="avatar">VK</div><div><b>Vardhman Wool Store</b><small>Admin workspace</small></div><span>•••</span></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><div><div class="crumb">Workspace <span>/</span> Overview</div><h1>Inventory & Sales Overview</h1><p class="sub">A unified view of KUCHIPOO products, stock and invoiced sales.</p></div><div class="top-actions"><div class="date-pill">◷ &nbsp; Last 6 months <span>⌄</span></div><button class="refresh" id="refresh">↻ &nbsp; Refresh data</button><div class="avatar top-avatar">VK</div></div></header>
+<div class="notice"><div class="notice-icon">i</div><div><b>New dashboard workspace</b><p>This is a separate project. Your existing Google Sheet and deployed VDM Dashboard are not connected or modified.</p></div><span class="notice-tag">ISOLATED</span></div>
+<section class="connection-test panel" aria-live="polite">
+ <div><h2>Uniware API connection</h2><p id="test-detail">Credentials are saved. Run a secure authentication test to verify API access.</p></div>
+ <div class="connection-test-actions"><span id="test-result" class="tag muted">NOT TESTED</span><button class="refresh" id="test-connection" type="button">Test Uniware Connection</button></div>
+</section>
+<section class="panel export-panel" id="uniware-export">
+ <div class="panel-head"><div><h2>Uniware Export Center</h2><p>Fetch Inventory Snapshot directly and create Sale Orders export jobs through the API.</p></div><span class="tag muted">COMBINED WORKFLOW</span></div>
+ <div class="export-block"><div><h3>1. Inventory Snapshot</h3><p>Direct API: SKU code + inventory quantity</p></div><button class="refresh" id="create-inventory-export" type="button">Create Inventory Export</button></div>
+ <div class="export-block sales-block"><div><h3>2. Sale Orders</h3><p>Columns: Item SKU Code · Invoice Created · Channel Name</p></div>
+  <div class="sales-controls"><label>Start date<input id="sales-start" type="date" value="2026-06-01"></label><label>End date<input id="sales-end" type="date"></label><label>Invoiced-date filter ID<input id="sales-filter-id" type="number" min="1" placeholder="Required numeric ID"></label><button class="refresh" id="create-sales-export" type="button">Create Sales Export</button></div>
+ </div>
+ <div class="export-block status-block"><div><h3>3. Check export status</h3><p>Paste the Job Code returned by Uniware.</p></div><div class="status-controls"><input id="status-job-code" type="text" placeholder="Uniware Job Code"><button class="outline" id="check-export-status" type="button">Check Job Status</button></div></div>
+ <div class="export-output" id="export-output" aria-live="polite">Ready. Inventory Snapshot uses the dedicated inventory API. Sales export requires the numeric ID for “Invoiced In Date Range”; this ID is not shown in the generic API schema you shared.</div>
+ <p class="export-note">Date ranges are limited to 92 days per request. Use month-wise or smaller date windows. Job creation and status checking are included; automatic CSV download, persistent storage and scheduled 5-minute sync are the next integration stage.</p>
+</section>
+<section class="kpis">
+ <article class="kpi"><div class="kpi-head">TOTAL ARTICLES <span>◇</span></div><strong id="articles">—</strong><small>Unique Article Numbers</small></article>
+ <article class="kpi"><div class="kpi-head">UNIWARE INVENTORY <span>▤</span></div><strong id="stock">—</strong><small>Inventory Snapshot quantity</small></article>
+ <article class="kpi"><div class="kpi-head">INVOICED UNITS <span>↗</span></div><strong id="units">—</strong><small>Based on invoice rows</small></article>
+ <article class="kpi"><div class="kpi-head">ACTIVE CHANNELS <span>◫</span></div><strong id="channels">—</strong><small>Original Uniware channel names</small></article>
+</section>
+<section class="grid two">
+ <article class="panel" id="sales"><div class="panel-head"><div><h2>Invoiced sales trend</h2><p>Daily in current month · Monthly for previous five months</p></div><span class="tag muted">6 MONTHS</span></div><div class="chart-empty"><div class="chart-icon">⌁</div><b>Sales data will appear here</b><span>Connect Uniware to load invoice history.</span></div></article>
+ <article class="panel" id="channels"><div class="panel-head"><div><h2>Channel performance</h2><p>Invoiced units by exact Channel Name</p></div><span class="tag muted">CHANNELS</span></div><div class="empty-list">Channel breakdown will appear after the first sync.</div></article>
+</section>
+<section class="panel table-panel" id="inventory"><div class="panel-head"><div><h2>Inventory snapshot</h2><p>SKU-level stock from Uniware Inventory Snapshot · grouped by exact SKU</p></div><div class="table-actions"><input id="search" placeholder="Search SKU or article…"><button class="outline" id="export">Export CSV ↓</button></div></div><div class="table-wrap"><table><thead><tr><th>SKU CODE</th><th>ARTICLE NUMBER</th><th>ARTICLE NAME</th><th>AGE</th><th>VENDOR</th><th class="right">UNIWARE INVENTORY</th></tr></thead><tbody id="inventory-body"><tr><td colspan="6" class="empty-cell">Inventory will load after Uniware API is configured.</td></tr></tbody></table></div></section>
+<section class="panel table-panel" id="products"><div class="panel-head"><div><h2>Product master</h2><p>Product attributes sourced from your new Google Sheet</p></div><span class="tag muted" id="master-status">NOT CONNECTED</span></div><div class="empty-list">Waiting for Product Master CSV connection. Required columns: SKU Code, Article Number, Article Name, Age, Vendor.</div></section>
+<footer>© 2026 KUCHIPOO · Private business dashboard <span>Secure API credentials stay server-side</span></footer>
+</main></div>
+<script src="/app.js"></script>
+</body></html>
